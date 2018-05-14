@@ -45,7 +45,7 @@ Similar to `color_hist` we also get a histogram of color intensities but this ti
 
 ### Histogram of Gradients
 
-Each square is broken up into *8x8* pixel squares. These cells computing gradients (directions) of colors. The number of orientations tell us the total number of bins in a histogram that we want to return. The resulting histogram will tell us the total magnitude of most 'direction' of a cell.
+Each square is broken up into *8x8* pixel squares. These cells computing gradients (directions) of colors. The number of orientations tell us the total number of bins in a histogram that we want to return. It is possible to speed up but also probably overfit an input with a different pixel square, such as *16x16*. The resulting histogram will tell us the total magnitude of most 'direction' of a cell. The total number of orientations we picked was the default 9 which gave us great results. All three color channels were chosen to create the HOG filters.
 
 ## Sliding Window Search
 
@@ -94,7 +94,25 @@ This image was the last frame before a collision in a [YouTube video](https://ww
 
 ![Last frame before a rear end collision](rear_end_detected.png)
 
-## Possible new features
+## Issues wiht Current pipeline
+
+### It's slow
+
+The curren tpipeline can take up to 50 minutes to render an short minute long streatm, taking up to 1.5-2.5 frames per **minute**. One possible way is to speed up HOG feature extraction. This can happen with a larger cell size of *16x16*.
+
+### It won't work at night or poor weather
+
+All of the data sets include images that are taken at day time in clear visibility. This pipeline will likely fail if hues are affeted by the presents of preciptation or if saturation levels are low due to low light.  The presense of car head lights reflecting off of the cars themselves.
+
+## Possible new features or improvements
+
+### Use Infrared Cameras
+
+For low light conditions we could use an infrared camera to obtain images at night. This would address previous concerns about low light or weather.
+
+### Use an embedded GPU
+
+If modifcations to the HOG features don't quite work, then we could consider using an embedded GPU to process images. 
 
 ### Tracking and Prediction
 
